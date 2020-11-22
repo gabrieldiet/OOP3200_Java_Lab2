@@ -21,6 +21,7 @@ public class WorkTicket
 
     // Public properties
 
+
     // Accessors
     public int getTicketNumber() { return ticketNumber;  }
     public String getClientId() { return clientId; }
@@ -30,6 +31,7 @@ public class WorkTicket
     public String getIssueDescription() { return issueDescription; }
 
     // Accessor Method
+    //public String ShowWorkTicket();
 
     // Mutators
     public void setTicketNumber(int ticketNumber) { this.ticketNumber = ticketNumber; }
@@ -39,13 +41,22 @@ public class WorkTicket
     public void setTicketYear(int ticketYear) { this.ticketYear = ticketYear; }
     public void setIssueDescription(String issueDescription) { this.issueDescription = issueDescription; }
 
+    // Mutator Method
+    //boolean SetWorkTicket(int number, String id, int day, int month, int year, String description);
 
     // Default constructor
-
+    //WorkTicket() {ticketNumber(0), clientId(""), ticketDay(1), ticketMonth(1), ticketYear(2000), issueDescription("")};
 
     // Parameterized constructor
     WorkTicket(int number, String id, int day, int month, int year, String description)
     {
-
+        ticketNumber = number;
+        clientId = id;
+        ticketDay = day;
+        ticketMonth = month;
+        ticketYear = year;
+        issueDescription = description;
     }
+
+
 }

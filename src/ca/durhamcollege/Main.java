@@ -1,171 +1,121 @@
 /**
- * @Authors: Gabriel Dietrich (100764733) and Fleur Blanckaert (100747083
+ * @Authors: Gabriel Dietrich (100764733) and Fleur Blanckaert (100747083)
  * @Date: Nov 21, 2020
  * @Program: OOP3200 - Java Lab 2
- * @Description: This application creates a class called WorkTicket, which represents the client's
- * 				request for IT support.	The class is copied into anew constructor. Later on, the
- * 				application demonstrates the usability of the operators "==", "=", ">>", and "<<".
+ * @Description: This is the main page of the application where we prompt the user
+ *               to enter the required information to create a new work ticket
  */
 
-
 package ca.durhamcollege;
-
+import javax.swing.*;
 import java.time.DateTimeException;
 import java.util.Scanner;
 import java.time.LocalDate;
-
 public class Main
 {
-
     public static void main(String[] args)
     {
-        Scanner keyboard = new Scanner(System.in);
 
         // Declarations
-        WorkTicket ticket;
-        String ticketInput; // Has to be int
-        String clientInput;
-        LocalDate localDate = LocalDate.now();
-        String workTicketDate;
-        int dayInput; // Has to be LocalDate
-        int monthInput;
-        int yearInput;
-        String descriptionInput;
-        boolean isValid = false;
+        int ticketInput = 0;
+        String clientInput = "";
+        int dayInput = 0;
+        int monthInput = 0;
+        int yearInput = 0;
+        String descriptionInput = "";
+        boolean isValid = true;
+        int i = 1;
 
+        do {
+            try {
+                WorkTicket ticket = new WorkTicket();
+                WorkTicket ticket1 = new WorkTicket();
 
-        int MIN_AMOUNT = 1;
-        int MAX_DAY = 31;
-        int MAX_MONTH = 12;
-        int MIN_YEAR = 2000;
-        int MAX_YEAR = 2099;
-        int i = 0;
+                //Parameterized constructor
+                WorkTicket ticket2 = new WorkTicket(12, "Hello", 12, 12, 2020, "Error");
 
-        // Output Header
-        System.out.println("===============================================");
-        System.out.println("\tIT Support Application");
-        System.out.println("===============================================\n");
+                //Parameterized constructor with error
+                WorkTicket ticket3 = new WorkTicket(12, "Hello", 12, 12, 2020, "Error");
 
-        do
-        {
-            try
-            {
-                // Ticker Number
+                //Default Constructor
+                System.out.println("\nThe Default constructor" + ticket1.toString());
+                System.out.println("\nThe Parameterized constructor" + ticket2.toString());
+
+                // Output Header
+                System.out.println("\n=====================================");
+                System.out.println("\tIT Support Application: Entry " + i );
+                System.out.println("=====================================\n");
+
+                Scanner keyboard = new Scanner(System.in);
+
+                //Prompts user to enter ticket ID
                 System.out.print("The Ticket Number is: ");
-                //ticketInput = ReadInteger(1);
-                ticketInput = keyboard.nextLine(); // ReadInteger
+                ticketInput = keyboard.nextInt();
+                keyboard.nextLine();
 
-
-                // Client ID
+                //Prompts user to enter client id
                 do
                 {
                     System.out.print("The Client ID is: ");
                     clientInput = keyboard.nextLine();
 
-                    if(clientInput.length() < MIN_AMOUNT)
+                    if(clientInput.length() == 0)
                     {
-                        System.out.println("Client ID must be at least " + MIN_AMOUNT + " character long");
+                        System.out.println("Client ID must have at least 1 character. Please try again");
                     }
                 }
-                while(clientInput.length() < MIN_AMOUNT);
+                while(clientInput.length() == 0);
 
-
-                // Work Ticket Date
-                System.out.print("The Work Ticket Date is (mm/dd/yyyy): ");
-                //workTicketDate = dateInput();
-                workTicketDate = keyboard.nextLine();
-                System.out.println(localDate);
-
-
+                //Prompts user to enter ticket day
                 System.out.println("The Work Ticket Date is: ");
-                do
-                {
-                    // Day
-                    System.out.print("Day: ");
-                    dayInput = keyboard.nextInt();
+                System.out.print("Day: ");
+                dayInput = keyboard.nextInt();
 
-                    if(dayInput < MIN_AMOUNT || dayInput > MAX_DAY)
-                    {
-                        System.out.println("\nError: Day must be between " + MIN_AMOUNT + " and " + MAX_DAY + "\n");
-                    }
-                }
-                while(dayInput < MIN_AMOUNT || dayInput > MAX_DAY);
+                //Prompts user to enter ticket month
+                System.out.print("Month: ");
+                monthInput = keyboard.nextInt();
 
-                do
-                {
-                    // Month
-                    System.out.print("Month: ");
-                    monthInput = keyboard.nextInt();
+                //Prompts user to enter ticket year
+                System.out.print("Year: ");
+                yearInput = keyboard.nextInt();
+                keyboard.nextLine();
 
-                    if(monthInput < MIN_AMOUNT || monthInput > MAX_MONTH)
-                    {
-                        System.out.println("\nError: Day must be between " + MIN_AMOUNT + " and " + MAX_MONTH + "\n");
-                    }
-                }
-                while(monthInput < MIN_AMOUNT || monthInput > MAX_MONTH);
-
-                do
-                {
-                    // Year
-                    System.out.print("Year: ");
-                    yearInput = keyboard.nextInt();
-
-                    if(yearInput < MIN_YEAR || yearInput > MAX_YEAR)
-                    {
-                        System.out.println("\nError: Day must be between " + MIN_YEAR + " and " + MAX_YEAR + "\n");
-                    }
-
-                }
-                while(yearInput < MIN_YEAR || yearInput > MAX_YEAR);
-
-                // Description
+                //Prompts user to enter ticket description
                 do
                 {
                     System.out.print("The Issue Description is: ");
                     descriptionInput = keyboard.nextLine();
 
-                    if(descriptionInput.length() < MIN_AMOUNT)
+                    if(descriptionInput.length() == 0)
                     {
-                        System.out.println("\nDescription must be at least " + MIN_AMOUNT + " character long");
+                        System.out.println("Description must have at least 1 character. Please try again");
                     }
                 }
-                while (descriptionInput.length() < MIN_AMOUNT);
+                while(descriptionInput.length() == 0);
 
-                //Sets the WorkTicket
-                //ticket.SetWorkTicket = (ticketInput, clientInput, workTicketDate, descriptionInput);
 
-                // Ends loop
-                isValid = true;
+                // Displays the output
+                ticket.SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, descriptionInput);
+                System.out.println(ticket.toString());
+
             }
-            catch(IllegalArgumentException illegalArgumentException)
-            {
-
-                // How can we have the same exception type but for two different types of errors???
-                System.out.println("Error: Invalid entry. Please enter a whole, positive number.");
-
-                System.out.println("Error: Year out of range. Must be between " + MIN_YEAR + " and " +
-                        MAX_YEAR);
-
+            catch (IllegalArgumentException illegalArgumentException) {
+                System.out.println("Exception occurred: " + illegalArgumentException.getMessage());
                 isValid = false;
             }
-            catch(DateTimeException dateTimeException)
-            {
-                System.out.println("Error: Invalid date. Days must be entered " +
-                        "as integer from 1 to 31.\nMonths must be entered as integer from 1 to 12");
-
+            catch (DateTimeException dateTimeException) {
+                System.out.println("Exception occurred: " + dateTimeException.getMessage());
                 isValid = false;
             }
-
+            if(isValid)
+            {
+                break;
+            }else
+            {
+                i++;
+            }
 
         }
         while(!isValid);
-
-        // Displays the output
-        System.out.println("\nTicket Number\tClient ID\tWork Ticket Date\tIssue Description");
-        //System.out.print(ticket.ShowWorkTicket());
-        //System.out.print(ticketInput + clientInput + workTicketDate + descriptionInput);
-
-
-
     }
 }

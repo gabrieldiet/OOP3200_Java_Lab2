@@ -1,60 +1,60 @@
 /**
- * @Authors: Gabriel Dietrich (100764733) and Fleur Blanckaert (100747083
+ * @Authors: Gabriel Dietrich (100764733) and Fleur Blanckaert (100747083)
  * @Date: Nov 21, 2020
  * @Program: OOP3200 - Java Lab 2
  * @Description: This application creates a class called WorkTicket, which represents the client's
- * 				request for IT support.	The class is copied into anew constructor. Later on, the
- * 				application demonstrates the usability of the operators "==", "=", ">>", and "<<".
+ *              request for IT support. We display all the object's attributes with a ToString method
+ *              and validate the data entered by the user, using exception handling in some cases.
  */
 
 package ca.durhamcollege;
-
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 public class WorkTicket
 {
-
     // Private instance variables
     private int ticketNumber;
     private String clientId;
     private LocalDate ticketDate;
-    //private int ticketDay;
-    //private int ticketMonth;
-    //private int ticketYear;
     private String issueDescription;
-
     // Public properties
     // Accessors
     public int getTicketNumber() { return ticketNumber;  }
     public String getClientId() { return clientId; }
     public LocalDate getTicketDate() { return ticketDate; }
-    //public int getTicketDay() { return ticketDay; }
-    //public int getTicketMonth() { return ticketMonth; }
-    //public int getTicketYear() { return ticketYear; }
     public String getIssueDescription() { return issueDescription; }
-
-    // Accessor Method
-    public String ShowWorkTicket()
-    {
-        return null;
-    }
-
     // Mutators
-    public void setTicketNumber(int ticketNumber) { this.ticketNumber = ticketNumber; }
-    public void setClientId(String clientId) { this.clientId = clientId; }
-    public void setTicketDate(LocalDate ticketDate) {this.ticketDate = ticketDate; }
-    //public void setTicketDay(int ticketDay) { this.ticketDay = ticketDay; }
-    //public void setTicketMonth(int ticketMonth) { this.ticketMonth = ticketMonth; }
-    //public void setTicketYear(int ticketYear) { this.ticketYear = ticketYear; }
-    public void setIssueDescription(String issueDescription) { this.issueDescription = issueDescription; }
-
-    // Mutator Method
-    boolean SetWorkTicket(int number, String id, LocalDate date, String description)
+    public void setTicketNumber(int ticketNumber)
     {
-        return true;
-    };
+        this.ticketNumber = ValidateTicket(ticketNumber);
+    }
+    public void setClientId(String clientId)
+    {
+        this.clientId = clientId;
+    }
+    public void setTicketDate( int day, int month, int year)
+    {
+        //Formats Date
+        if(ValidateDate(day, month, year) == true)
+        {
+            LocalDate ticketDate = LocalDate.of(year, month, day);
+            this.ticketDate = ticketDate;
+        }
 
+    }
+    public void setIssueDescription(String issueDescription)
+    {
+        this.issueDescription = issueDescription;
+    }
+    // Mutator Method
+    void SetWorkTicket(int number, String id, int day, int month, int year, String description)
+    {
+        setTicketNumber(number);
+        setClientId(id);
+        setTicketDate(day, month, year);
+        setIssueDescription(description);
+    }
     // Default constructor
     public WorkTicket()
     {
@@ -63,47 +63,54 @@ public class WorkTicket
         ticketDate = null;
         issueDescription = null;
     }
-
     // Parameterized constructor
-    WorkTicket(int number, String id, LocalDate date, String description)
+    WorkTicket(int number, String id, int day, int month, int year , String description)
     {
-        ticketNumber = number;
-        clientId = id;
-        ticketDate = date;
-        //ticketDay = day;
-        //ticketMonth = month;
-        //ticketYear = year;
-        issueDescription = description;
+        SetWorkTicket(number, id, day, month, year, description);
     }
-
     // Returns string that shows object's attributes
-    String ticketString = Integer.toString(ticketNumber);
     @Override
-    public String toString() { return ticketString + " " + clientId + " " + ticketDate + " " +
-            issueDescription;};
+    public String toString()
+    {
+        return "\nTicket #\tClient ID\tWork Ticket Date\tIssue Description\n" +
+                ticketNumber + "\t\t\t" + clientId + "\t\t\t" + ticketDate + "\t\t\t" + issueDescription;
+    }
 
     // Function that reads integer values
-    public int ReadInteger(final int MIN, final int MAX)
+    public int ValidateTicket(int ticket)
     {
-        double validNumber = 0.0;
-
-        if(validNumber > (int)validNumber)
+        int MIN_NUM = 1;
+        if(ticket < 1 )
         {
-            throw new IllegalArgumentException("Invalid Input. Please enter a whole, positive number\n");
+            throw new IllegalArgumentException("Please enter a whole, positive number\n");
         }
-
-        return (int)validNumber;
+        else
+        {
+            return (int)ticket;
+        }
     }
-
-    // Method to take in date. Accepts string and converts to LocalDate
-    //https://stackoverflow.com/questions/42522744/taking-input-using-localdate
-    public static LocalDate dateInput(String userInput)
+    public boolean ValidateDate(int day, int month, int year)
     {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("mm/dd/yyyy");
-        LocalDate ticketDate = LocalDate.parse(userInput, dateFormat);
-
-        System.out.println(ticketDate);
-        return ticketDate;
+        int MIN_AMOUNT = 1;
+        int MAX_DAY = 31;
+        int MAX_MONTH = 12;
+        int MIN_YEAR = 2000;
+        int MAX_YEAR = 2099;
+        if(day < MIN_AMOUNT || day > MAX_DAY)
+        {
+            throw new DateTimeException("Day must be between " + MIN_AMOUNT + " and " + MAX_DAY + "\n");
+        }
+        else if(month < MIN_AMOUNT || month > MAX_MONTH)
+        {
+            throw new DateTimeException("\nMonth must be between " + MIN_AMOUNT + " and " + MAX_MONTH + "\n");
+        }
+        else if(year < MIN_YEAR || year > MAX_YEAR)
+        {
+            throw new DateTimeException("\nYear must be at least between " + MIN_YEAR + " and " + MAX_YEAR + "\n");
+        }
+        else
+        {
+            return true;
+        }
     }
-
 }
